@@ -9,14 +9,42 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            VStack {
+            
+                Text("Notes")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(.yellow)
+                    .multilineTextAlignment(.center)
+                    
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+
+                    .padding()
+                
+                NavigationLink(destination: AllNotesView()) {
+                    Text("All Notes")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.yellow)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.yellow, lineWidth: 5)
+                )
+
+                //Note for the future: We can add a Recently Deleted Page here to access deleted notes?
+                
+                
+            }
+            
+            .padding()
+            .background(Color.black)
         }
-        .padding()
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -24,3 +52,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+ 
