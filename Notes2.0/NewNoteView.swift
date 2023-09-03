@@ -9,19 +9,31 @@ import Foundation
 import SwiftUI
 
 struct NewNoteView: View {
-    @State var noteTitle: String = ""
+    @State var noteTitle: String = UserDefaults.standard.string(forKey: "noteTitle") ?? ""
+    @State var listNoteTitle: [String] = [""]
     @State var noteBody: String = ""
     @State var noteDate: Date = Date()
     @State var noteColor: Color = Color.yellow
-    
+    @State private var action: Int? = 0    
     var body: some View {
         ScrollView{
             VStack {
                 //This is where we will display all the notes
+
+                //NavigationLink(destination: AllNotesView()) {
+                NavigationLink(destination: AllNotesView().navigationBarBackButtonHidden(), tag: 1, selection: $action) {
+                    Text("")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
+
                 Text("New Note")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(.yellow)
+                    .foregroundColor(.black)
                     .multilineTextAlignment(.center)
                     
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
@@ -45,7 +57,7 @@ struct NewNoteView: View {
                 
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.yellow, lineWidth: 5)
+                        .stroke(Color.black, lineWidth: 5)
                 )
 
                 //create a textfield for the body
@@ -58,12 +70,12 @@ struct NewNoteView: View {
                 
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.yellow, lineWidth: 5)
+                        .stroke(Color.black, lineWidth: 5)
                 )
                 //create a date picker for the date
                 DatePicker("Date", selection: $noteDate)
                     .font(.title)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .multilineTextAlignment(.center)
                     .padding()
                 
@@ -71,28 +83,39 @@ struct NewNoteView: View {
                 //create a color picker for the color
                 ColorPicker("Color", selection: $noteColor)
                     .font(.title)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .multilineTextAlignment(.center)
                     .padding()
                 
-                //create a button to add a new note
-                NavigationLink(destination: AllNotesView()) {
-                    Text("Save Note")
+                
+                Button(action: {
+                    
+                    UserDefaults.standard.set(self.noteTitle, forKey: "noteTitle")
+                    self.listNoteTitle.append(self.noteTitle)
+                    self.action = 1;
+
+                    
+                    
+                }
+                    
+                ) {
+                    Text("Save")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(.yellow)
+                        .foregroundColor(.black)
                         .multilineTextAlignment(.center)
                         .padding()
                 }
+
                 
             }
             
             
             .padding()
-            .background(Color.black)
+            .background(Color.white)
         }
         .padding()
-        .background(Color.black)
+        .background(Color.white)
     }
 }
 
